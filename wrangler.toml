@@ -1,0 +1,33 @@
+name = "dumpster-rental-site"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./out"
+
+[build]
+command = "npm run build"
+
+[[redirects]]
+from = "/*.html"
+to = "/:splat"
+status = 301
+
+[[redirects]]
+from = "/dumpster-sizes.html"
+to = "/dumpster-sizes/"
+status = 301
+
+[[redirects]]
+from = "/about.html"
+to = "/about/"
+status = 301
+
+[[redirects]]
+from = "/by-state.html"
+to = "/by-state/"
+status = 301
+
+[[redirects]]
+from = "/contact.html"
+to = "/contact/"
+status = 301
