@@ -9,8 +9,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function StatePage({ params }: { params: { state: string } }) {
-  const state = getState(params.state);
+export default async function StatePage({ params }: { params: Promise<{ state: string }> }) {
+  const { state: stateSlug } = await params;
+  const state = getState(stateSlug);
   
   if (!state) {
     notFound();
@@ -32,7 +33,7 @@ export default async function StatePage({ params }: { params: { state: string } 
   ].map(slug => ({
     slug,
     name: slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-    href: `/${params.state}/dumpster-rental-${slug}`
+    href: `/${stateSlug}/dumpster-rental-${slug}`
   }));
   
   return (

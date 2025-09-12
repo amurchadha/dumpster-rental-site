@@ -42,6 +42,10 @@ export const getCitiesForState = async (stateSlug: string): Promise<City[]> => {
 
 // Generate city data on-demand (for SEO purposes)
 export const generateCityData = (stateSlug: string, citySlug: string): City => {
+  if (!citySlug || typeof citySlug !== 'string') {
+    throw new Error(`Invalid city slug: ${citySlug}`);
+  }
+  
   return {
     slug: citySlug,
     name: citySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),

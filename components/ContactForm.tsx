@@ -17,22 +17,10 @@ export default function ContactForm() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      
-      if (response.ok) {
-        setSubmitMessage('Thank you! We will contact you shortly.');
-        setFormData({ name: '', phone: '', email: '', address: '' });
-      } else {
-        setSubmitMessage('Error submitting form. Please try again.');
-      }
-    } catch (error) {
-      setSubmitMessage('Error submitting form. Please try again.');
-    }
+    // For static export, we'll show a message directing to phone contact
+    // In production, you can integrate with Cloudflare Workers or external service
+    setSubmitMessage('Please call us directly at (800) 682-5062 for immediate service!');
+    setFormData({ name: '', phone: '', email: '', address: '' });
     
     setIsSubmitting(false);
   };
