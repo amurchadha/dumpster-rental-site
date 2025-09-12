@@ -4,25 +4,34 @@ import ContactForm from '@/components/ContactForm';
 import { getState, generateCityData } from '@/lib/data';
 import { generateAllCityParams } from '@/lib/city-generator';
 
-// Generate static params for all city pages
+// Generate static params for all city pages - MAXIMUM SCALE
 export async function generateStaticParams() {
-  // Start with a small test set to debug
-  const testParams = [
-    { state: 'texas', city: 'houston' },
-    { state: 'texas', city: 'dallas' },
-    { state: 'california', city: 'los-angeles' },
-    { state: 'florida', city: 'miami' },
-    { state: 'new-york', city: 'new-york' },
-  ];
+  const params = generateAllCityParams();
+  console.log(`🚀 GOING FULL SCALE: Generating ${params.length} city pages!`);
+  console.log('💪 Major states getting 50 cities each, regular states getting 30 each');
   
-  console.log(`Generating ${testParams.length} test city pages...`);
-  console.log('Test params:', testParams);
-  return testParams;
+  // Filter out any invalid params and log them
+  const validParams = params.filter(param => {
+    const isValid = param && param.state && param.city && 
+                   typeof param.state === 'string' && 
+                   typeof param.city === 'string' &&
+                   param.state.trim() !== '' && 
+                   param.city.trim() !== '';
+    
+    if (!isValid) {
+      console.error('Invalid param filtered out:', param);
+    }
+    return isValid;
+  });
+  
+  console.log(`✅ Filtered to ${validParams.length} valid params`);
+  return validParams;
 }
 
 // Generate metadata for each city page
-export async function generateMetadata({ params }: { params: { state: string; city: string } }): Promise<Metadata> {
-  const { state: stateSlug, city: citySlug } = params;
+export async function generateMetadata({ params }: { params: Promise<{ state: string; city: string }> }): Promise<Metadata> {
+  console.log('generateMetadata called with params:', params);
+  const { state: stateSlug, city: citySlug } = await params;
   const state = getState(stateSlug);
   
   if (!state) {
@@ -41,22 +50,47 @@ export async function generateMetadata({ params }: { params: { state: string; ci
   };
 }
 
-export default function CityPage({ 
+export default async function CityPage({ 
   params 
 }: { 
-  params: { state: string; city: string } 
+  params: Promise<{ state: string; city: string }> 
 }) {
-  const { state: stateSlug, city: citySlug } = params;
+  console.log('CityPage received params:', JSON.stringify(params));
   
-  console.log('CityPage params:', { stateSlug, citySlug });
+  const { state: stateSlug, city: citySlug } = await params;
+  
+  console.log('Destructured params:', { stateSlug, citySlug });
+  
+  // Simple validation with detailed logging
+  if (!params) {
+    console.error('No params received');
+    return <div>Error: No parameters received</div>;
+  }
+  
+  if (!stateSlug) {
+    console.error('No state slug in params:', params);
+    return <div>Error: No state parameter found</div>;
+  }
+  
+  if (!citySlug) {
+    console.error('No city slug in params:', params);
+    return <div>Error: No city parameter found</div>;
+  }
   
   const state = getState(stateSlug);
   
   if (!state) {
-    notFound();
+    console.error('State not found:', stateSlug);
+    return <div>Error: State {stateSlug} not found</div>;
   }
   
-  const city = generateCityData(stateSlug, citySlug);
+  let city;
+  try {
+    city = generateCityData(stateSlug, citySlug);
+  } catch (error) {
+    console.error('Error generating city data:', error);
+    return <div>Error: Could not generate city data for {citySlug}</div>;
+  }
   
   // SEO-optimized title and description
   const pageTitle = `Dumpster Rental ${city.name}, ${state.abbreviation} - Fast Delivery & Pickup`;

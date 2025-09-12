@@ -42,13 +42,21 @@ export const getCitiesForState = async (stateSlug: string): Promise<City[]> => {
 
 // Generate city data on-demand (for SEO purposes)
 export const generateCityData = (stateSlug: string, citySlug: string): City => {
+  console.log('generateCityData called with:', { stateSlug, citySlug });
+  
   if (!citySlug || typeof citySlug !== 'string') {
-    throw new Error(`Invalid city slug: ${citySlug}`);
+    console.error('Invalid city slug received:', { stateSlug, citySlug });
+    throw new Error(`Invalid city slug: ${citySlug} (type: ${typeof citySlug})`);
+  }
+  
+  if (!stateSlug || typeof stateSlug !== 'string') {
+    console.error('Invalid state slug received:', { stateSlug, citySlug });  
+    throw new Error(`Invalid state slug: ${stateSlug} (type: ${typeof stateSlug})`);
   }
   
   return {
     slug: citySlug,
     name: citySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-    url: `/${stateSlug}/dumpster-rental-${citySlug}/`
+    url: `/${stateSlug}/${citySlug}/`
   };
 };
