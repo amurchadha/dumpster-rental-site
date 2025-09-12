@@ -57,6 +57,6 @@ export const generateCityData = (stateSlug: string, citySlug: string): City => {
   return {
     slug: citySlug,
     name: citySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-    url: `/${stateSlug}/${citySlug}/`
+    url: `/${stateSlug}/dumpster-rental-${citySlug}/`
   };
 };
