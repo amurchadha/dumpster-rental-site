@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import ContactForm from '@/components/ContactForm';
 import { getState, generateCityData } from '@/lib/data';
 import { generateAllCityParams } from '@/lib/city-generator';
 
@@ -113,180 +112,169 @@ export default async function CityPage({
     }));
 
   return (
-    <div className="container mx-auto px-4 py-8">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2">
-            <div className="mb-4 text-sm">
-              <a href="/" className="text-blue-600 hover:underline">Home</a> 
-              <span className="mx-2">&gt;&gt;</span>
-              <a href={`/${stateSlug}`} className="text-blue-600 hover:underline">{state.name}</a>
-              <span className="mx-2">&gt;&gt;</span>
-              <span>{city.name} dumpsters</span>
-            </div>
-            
-            <h1 className="text-3xl font-bold mb-6">
-              Dumpster Rental in {city.name}, {state.abbreviation}
-            </h1>
-            
-            <p className="mb-4 text-gray-700 leading-relaxed">
-              Finally, dumpster rental in {city.name} is easy, reliable, and affordable thanks to the efforts of 
-              Dumpster Rental Direct! At Dumpster Rental Direct, we work hard to provide a high quality dumpster 
-              rental and roll off services at affordable rates and with the utmost level of customer service. All 
-              too often, local residents in {city.name} have been let down when they require dumpster rental in {city.name}. 
-              If you choose an unreliable dumpster company in {city.name} you will quickly learn that you have made a 
-              costly and aggravating mistake.
-            </p>
-            
-            <p className="mb-6 text-gray-700 leading-relaxed">
-              Finding a reliable source for dumpsters in {city.name} is essential to completing construction, renovation, 
-              demolition, landscaping, drywall, electrical, or clean out projects. There are many different types of jobs 
-              that call for dumpster rental in {city.name}, but no matter your need, Dumpster Rental Direct has the can for you.
-            </p>
-            
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-              <h2 className="text-xl font-bold text-blue-800 mb-2">
-                📞 Call Now: (800) 682-5062
-              </h2>
-              <p className="text-blue-700">
-                Same-day delivery available in {city.name}! Get your free quote in minutes.
-              </p>
-            </div>
-            
-            <p className="mb-6 text-gray-700 leading-relaxed">
-              Some dumpster companies in {city.name} have a reputation for overpromising and under delivering. 
-              Often this is done by guaranteeing a delivery time, and then showing up late, or not showing at 
-              all without any explanation. This can leave customers high and dry, while if they were simply 
-              informed of the delay, they could have made alternate arrangements. Also, some companies that 
-              provide <strong>dumpster rental in {city.name}</strong> have been known to quote low prices over 
-              the phone, only to make up for it with additional fees and overages at the end of your dumpster rental.
-            </p>
-
-            <h2 className="text-2xl font-bold mt-8 mb-4">
-              Dumpster Rentals {city.name}, {state.abbreviation}
-            </h2>
-            
-            <p className="mb-4 text-gray-700 leading-relaxed">
-              Why would anyone need {city.name} roll off dumpsters? A better question to ask may be when would 
-              someone need {city.name} roll off dumpsters? The answer is quite simple; whenever you are generating 
-              more waste material than you can handle with your regular garbage pickup.
-            </p>
-            
-            <p className="mb-6 text-gray-700 leading-relaxed">
-              At Dumpster Rental Direct we specialize in providing {city.name} roll off dumpsters. Our roll off 
-              and construction dumpster dispatch staff is well trained to answer all of your questions courteously 
-              and professionally. When you call Dumpster Rental Direct you will be instantly connected to an expert 
-              who thoroughly understands {city.name} roll off dumpsters.
-            </p>
-
-            <h3 className="text-xl font-bold mt-6 mb-3">Dumpster Sizes Offered in {city.name}, {state.abbreviation}</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <div className="border border-gray-300 p-4 rounded-lg">
-                <strong className="text-lg text-blue-600">10 Yard Dumpsters</strong>
-                <p className="text-sm text-gray-600 mt-1">Perfect for small cleanouts</p>
-                <ul className="text-sm mt-2 space-y-1">
-                  <li>• 3-5 pickup truck loads</li>
-                  <li>• Bathroom remodels</li>
-                  <li>• Small deck removal</li>
-                </ul>
-              </div>
-              
-              <div className="border border-gray-300 p-4 rounded-lg">
-                <strong className="text-lg text-blue-600">20 Yard Dumpsters</strong>
-                <p className="text-sm text-gray-600 mt-1">Most popular size</p>
-                <ul className="text-sm mt-2 space-y-1">
-                  <li>• 6-8 pickup truck loads</li>
-                  <li>• Kitchen remodels</li>
-                  <li>• Flooring removal</li>
-                </ul>
-              </div>
-              
-              <div className="border border-gray-300 p-4 rounded-lg">
-                <strong className="text-lg text-blue-600">30 Yard Dumpsters</strong>
-                <p className="text-sm text-gray-600 mt-1">Large renovation projects</p>
-                <ul className="text-sm mt-2 space-y-1">
-                  <li>• 9-12 pickup truck loads</li>
-                  <li>• Whole house cleanouts</li>
-                  <li>• Large deck removal</li>
-                </ul>
-              </div>
-              
-              <div className="border border-gray-300 p-4 rounded-lg">
-                <strong className="text-lg text-blue-600">40 Yard Dumpsters</strong>
-                <p className="text-sm text-gray-600 mt-1">Major construction</p>
-                <ul className="text-sm mt-2 space-y-1">
-                  <li>• 12-16 pickup truck loads</li>
-                  <li>• Commercial projects</li>
-                  <li>• Major renovations</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Internal Linking Section - Top Cities */}
-            <h3 className="text-xl font-bold mt-8 mb-4">
-              Top Cities in {state.name}
-            </h3>
-            <div className="bg-gray-50 p-4 rounded-lg mb-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {topCitiesInState.map((topCity, index) => (
-                  <a 
-                    key={index}
-                    href={topCity.url} 
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    Dumpster Rental in {topCity.name}, {state.abbreviation}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Internal Linking Section - Other Cities */}
-            <h3 className="text-xl font-bold mt-6 mb-4">
-              Other cities we service in {state.name}
-            </h3>
-            <div className="bg-gray-50 p-4 rounded-lg mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
-                {otherCitiesInState.map((otherCity, index) => (
-                  <a 
-                    key={index}
-                    href={otherCity.url} 
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    Dumpster Rental in {otherCity.name}
-                  </a>
-                ))}
-              </div>
-            </div>
-            
-            <div className="mt-8 p-6 bg-gray-100 rounded-lg">
-              <h3 className="text-xl font-bold mb-3">Ready to Get Started?</h3>
-              <p className="mb-3">
-                Don't let waste pile up in {city.name}! Call Dumpster Rental Direct today 
-                for fast, professional dumpster rental service.
-              </p>
-              <div className="text-center">
-                <a 
-                  href="tel:8006825062" 
-                  className="inline-block bg-orange-500 text-white px-8 py-3 rounded-lg text-xl font-bold hover:bg-orange-600 transition-colors"
-                >
-                  📞 Call (800) 682-5062 Now
-                </a>
-              </div>
-            </div>
-          </div>
+    <>
+      <div id="leftcontent">
+        <div id="leftcontenttext">
+          <p>
+            <a href="/">Home</a> &gt;&gt; <a href={`/${stateSlug}/`}>{state.name}</a> &gt;&gt; <a href={`/${stateSlug}/dumpster-rental-${citySlug}/`}>{city.name} dumpsters</a>
+          </p>
           
-          <div>
-            <ContactForm />
-            
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <h4 className="font-bold text-yellow-800 mb-2">Service Area</h4>
-              <p className="text-yellow-700 text-sm">
-                We proudly serve {city.name} and surrounding areas in {state.name}. 
-                Contact us to confirm delivery to your specific location.
-              </p>
-            </div>
+          <h1>Dumpster Rental in {city.name}, {state.abbreviation}</h1>
+          
+          <p>
+            Finally, dumpster rental in {city.name} is easy, reliable, and affordable thanks to the efforts of 
+            Dumpster Rental Direct! At Dumpster Rental Direct, we work hard to provide a high quality dumpster 
+            rental and roll off services at affordable rates and with the utmost level of customer service. All 
+            too often, local residents in {city.name} have been let down when they require dumpster rental in {city.name}. 
+            If you choose an unreliable dumpster company in {city.name} you will quickly learn that you have made a 
+            costly and aggravating mistake. Finding a reliable source for dumpsters in {city.name} is essential to 
+            completing construction, renovation, demolition, landscaping, drywall, electrical, or clean out projects. 
+            There are many different types of jobs that call for dumpster rental in {city.name}, but no matter your need, 
+            Dumpster Rental Direct has the can for you.
+          </p>
+          
+          <p>
+            Some dumpster companies in {city.name} have a reputation for overpromising and under delivering. 
+            Often this is done by guaranteeing a delivery time, and then showing up late, or not showing at 
+            all without any explanation. This can leave customers high and dry, while if they were simply 
+            informed of the delay, they could have made alternate arrangements. Also, some companies that 
+            provide <strong>dumpster rental in {city.name}</strong> have been known to quote low prices over 
+            the phone, only to make up for it with additional fees and overages at the end of your dumpster rental. 
+            Often times you are not even made aware of these charges until you see them on your credit card statement. 
+            For straight forward pricing on dumpsters in {city.name} call the professionals at Dumpster Rental Direct today, 
+            and the next time you need a roll off dumpster it will be taken care of.
+          </p>
+          
+          <h2>Dumpster Rentals {city.name}, {state.abbreviation}</h2>
+          
+          <p>
+            Why would anyone need {city.name} roll off dumpsters? A better question to ask may be when would 
+            someone need {city.name} roll off dumpsters? The answer is quite simple; whenever you are generating 
+            more waste material than you can handle with your regular garbage pickup. Will a regular waste management 
+            or garbage collection company be able to supply <em>{city.name} roll off dumpsters</em>? Sometimes they 
+            can but not always. Dumpster Rental Direct, however, will always be able to deliver the {city.name} roll off 
+            dumpsters that your task at hand calls for and always at a price that you can afford.
+          </p>
+
+          <p>
+            At Dumpster Rental Direct we specialize in providing {city.name} roll off dumpsters. Our roll off 
+            and construction dumpster dispatch staff is well trained to answer all of your questions courteously 
+            and professionally. Gone are the days of rude roll off dumpster phone attendants and answering service. 
+            When you call Dumpster Rental Direct you will be instantly connected to an expert who thoroughly understands 
+            {city.name} roll off dumpsters. At Dumpster Rental Direct, our pride is our people, and we strive for 
+            excellence in everything we do. Don't place your trust in any other dumpster company when you need the best 
+            {city.name} roll off dumpsters. Dumpster Rental Direct can handle any job, large or small. When you order 
+            {city.name} roll off dumpsters from Dumpster Rental Direct, you can rest assured that your order will be 
+            handled expediently and with great care.
+          </p>
+          
+          <h3>Dumpster Sizes Offered in {city.name}, {state.abbreviation}</h3>
+          
+          <table width="590" border={0}>
+            <tr>
+              <td width="290">10 Yard Dumpsters</td>
+              <td width="290">20 Yard Dumpsters</td>
+            </tr>
+            <tr>
+              <td>
+                <img 
+                  src="http://www.dumpsterrentaldirect.com/images/10-yard-dumpster.jpg" 
+                  alt={`10 Yard Dumpster in ${city.name}`} 
+                />
+              </td>
+              <td>
+                <img 
+                  src="http://www.dumpsterrentaldirect.com/images/20-yard-dumpster.jpg" 
+                  title={`20 Yard Dumpster in ${city.name}`} 
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>30 Yard Dumpsters</td>
+              <td>40 Yard Dumpsters</td>
+            </tr>
+            <tr>
+              <td>
+                <img src="http://www.dumpsterrentaldirect.com/images/30-yard-dumpster.jpg" />
+              </td>
+              <td>
+                <img src="http://www.dumpsterrentaldirect.com/images/40-yard-dumpster.jpg" />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={2}>
+                <h5>Other cities we service in {state.name}</h5>
+                <ul className="sidecities">
+                  {otherCitiesInState.map((otherCity, index) => (
+                    <li key={index}>
+                      <a href={otherCity.url}>
+                        Dumpster Rental in {otherCity.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <div id="rightcontent">
+        <div id="form">
+          <h3 style={{textAlign: 'center'}}>Rent A Dumpster in {city.name}, {state.name}</h3>
+          <form action="" encType="multipart/form-data" method="POST">
+            <table style={{fontWeight: 'bolder', color: 'black'}} border={0} width="100%">
+              <tbody>
+                <tr>
+                  <td>Name:</td>
+                  <td><input name="Name:" defaultValue="" type="text" /></td>
+                </tr>
+                <tr>
+                  <td>Phone:</td>
+                  <td>
+                    <input name="Phone:" defaultValue="" type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Email:</td>
+                  <td>
+                    <input name="Email:" defaultValue="" type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Address:</td>
+                  <td><textarea name="Address" cols={15} rows={3}></textarea></td>
+                </tr>
+                <tr>
+                  <td>Container Size:</td>
+                  <td>
+                    <select name="Container Size:">
+                      <option>10 Yard Dumpster</option>
+                      <option>20 Yard Dumpster</option>
+                      <option>30 Yard Dumpster</option>
+                      <option>40 Yard Dumpster</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Delivery Date:</td>
+                  <td><input name="Delivery Date:" defaultValue="" type="text" /></td>
+                </tr>
+                <tr>
+                  <td colSpan={2} style={{textAlign: 'center'}}>
+                    <input name="submit" value="Request Quote" type="submit" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          
+          <div style={{textAlign: 'center', marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0'}}>
+            <h4>Call Now: (800) 682-5062</h4>
+            <p>Same-day delivery available in {city.name}!</p>
           </div>
         </div>
       </div>
+    </>
   );
 }
