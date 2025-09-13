@@ -3,17 +3,17 @@ import { Metadata } from 'next';
 import { getState, generateCityData, states } from '@/lib/data';
 import { generateCitiesForState, generateAllCityParams } from '@/lib/city-generator';
 
-// STRATEGY: Build strategic subset - major cities + reasonable coverage per state
+// FULL BUILD: All 42,956 cities from original website
 export async function generateStaticParams() {
-  console.log('🎯 STRATEGIC BUILD: Major cities + 50 per state = ~2,500 total pages');
+  console.log('🚀 FULL BUILD: All 42,956 cities from original website');
   
   const allParams: Array<{ state: string; slug: string[] }> = [];
   const validStates = states.filter(s => s && s.slug);
   
-  // Get 50 cities per state (includes priority cities first)
+  // Get ALL cities for each state - no limits
   for (const state of validStates) {
     if (state.slug) {
-      const stateCities = generateCitiesForState(state.slug, 50); // 50 per state
+      const stateCities = generateCitiesForState(state.slug, 999999); // ALL cities
       console.log(`Building ${stateCities.length} cities for ${state.slug}`);
       
       stateCities.forEach(city => {
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
   }
   
   console.log(`✅ Total pages to build: ${allParams.length}`);
-  console.log('🚀 Includes all major cities + good coverage per state');
+  console.log('🎯 Building EVERY city from the original website');
   
   return allParams;
 }
