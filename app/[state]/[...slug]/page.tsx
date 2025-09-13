@@ -3,39 +3,34 @@ import { Metadata } from 'next';
 import { getState, generateCityData, states } from '@/lib/data';
 import { generateCitiesForState, generateAllCityParams } from '@/lib/city-generator';
 
-// STRATEGY: Generate priority cities at build time, validate ALL cities at runtime
-// This ensures key cities work immediately while supporting all 42,956 cities
+// STRATEGY: Build strategic subset - major cities + reasonable coverage per state
 export async function generateStaticParams() {
-  console.log('🚀 HYBRID STRATEGY: Build priority cities, support ALL 42,956 at runtime');
+  console.log('🎯 STRATEGIC BUILD: Major cities + 50 per state = ~2,500 total pages');
   
-  // Generate only priority cities at build time to avoid timeouts
-  const priorityCities = ['philadelphia', 'pittsburgh', 'houston', 'dallas', 'austin', 'san-antonio',
-    'los-angeles', 'san-francisco', 'san-diego', 'miami', 'tampa', 'orlando',
-    'new-york', 'buffalo', 'rochester', 'chicago', 'atlanta', 'boston'];
-  
-  const priorityParams: Array<{ state: string; slug: string[] }> = [];
-  
-  // Add priority cities from each state that has them
+  const allParams: Array<{ state: string; slug: string[] }> = [];
   const validStates = states.filter(s => s && s.slug);
   
+  // Get 50 cities per state (includes priority cities first)
   for (const state of validStates) {
     if (state.slug) {
-      const stateCities = generateCitiesForState(state.slug, 999999);
-      const statePriorities = priorityCities.filter(city => stateCities.includes(city));
+      const stateCities = generateCitiesForState(state.slug, 50); // 50 per state
+      console.log(`Building ${stateCities.length} cities for ${state.slug}`);
       
-      statePriorities.forEach(city => {
-        priorityParams.push({
-          state: state.slug,
-          slug: [`dumpster-rental-${city}`]
-        });
+      stateCities.forEach(city => {
+        if (city && typeof city === 'string') {
+          allParams.push({
+            state: state.slug,
+            slug: [`dumpster-rental-${city}`]
+          });
+        }
       });
     }
   }
   
-  console.log(`✅ Building ${priorityParams.length} priority cities at build time`);
-  console.log('🌐 ALL OTHER CITIES (42,956 total) supported at runtime via dynamic routing');
+  console.log(`✅ Total pages to build: ${allParams.length}`);
+  console.log('🚀 Includes all major cities + good coverage per state');
   
-  return priorityParams;
+  return allParams;
 }
 
 // Generate metadata for each city page
