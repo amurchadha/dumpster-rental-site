@@ -3,18 +3,17 @@ import { Metadata } from 'next';
 import { getState, generateCityData, states } from '@/lib/data';
 import { generateCitiesForState, generateAllCityParams } from '@/lib/city-generator';
 
-// HYBRID BUILD: Maximum cities within platform limits (~10,000 pages)
+// AGGRESSIVE BUILD: Push Cloudflare limits with 500 cities per state (~25,000 pages)
 export async function generateStaticParams() {
-  console.log('⚡ HYBRID BUILD: Maximum cities within platform limits (~10,000 pages)');
+  console.log('🚀 AGGRESSIVE BUILD: 500 cities per state (~25,000 pages)');
   
   const allParams: Array<{ state: string; slug: string[] }> = [];
   const validStates = states.filter(s => s && s.slug);
   
-  // Get 200 cities per state (major cities first) = ~10,000 total
+  // Get 500 cities per state (major cities first) = ~25,000 total
   for (const state of validStates) {
     if (state.slug) {
-      const stateCities = generateCitiesForState(state.slug, 200); // 200 per state
-      console.log(`Building ${stateCities.length} cities for ${state.slug}`);
+      const stateCities = generateCitiesForState(state.slug, 500);
       
       stateCities.forEach(city => {
         if (city && typeof city === 'string') {
@@ -27,8 +26,7 @@ export async function generateStaticParams() {
     }
   }
   
-  console.log(`✅ Total pages to build: ${allParams.length}`);
-  console.log('🎯 Major cities + comprehensive coverage per state');
+  console.log(`✅ Building ${allParams.length} total pages`);
   
   return allParams;
 }

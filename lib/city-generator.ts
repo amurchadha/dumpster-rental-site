@@ -40,14 +40,12 @@ export function generateCitiesForState(stateSlug: string, maxCities: number = 10
   // Use scraped cities if available
   if (scrapedCities[stateSlug] && scrapedCities[stateSlug].length > 0) {
     const allStateCities = scrapedCities[stateSlug];
-    console.log(`Using ${allStateCities.length} real cities for ${stateSlug}`);
     
     // Put priority cities first, then the rest
     const priorityForState = priorityCities.filter(city => allStateCities.includes(city));
     const otherCities = allStateCities.filter(city => !priorityCities.includes(city));
     
     const orderedCities = [...priorityForState, ...otherCities];
-    console.log(`🎯 Priority cities for ${stateSlug}: ${priorityForState.join(', ')}`);
     
     return orderedCities.slice(0, maxCities);
   }
