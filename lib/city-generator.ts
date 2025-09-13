@@ -69,7 +69,7 @@ export function generateAllCityParams(): Array<{ state: string; city: string }> 
   
   validStates.forEach(state => {
     if (state.slug) {
-      const cities = generateCitiesForState(state.slug, 1000); // Get all cities from scraped data
+      const cities = generateCitiesForState(state.slug, 999999); // Get ALL scraped cities - no limit!
       console.log(`Generated ${cities.length} cities for ${state.slug}`);
       
       cities.forEach(city => {
