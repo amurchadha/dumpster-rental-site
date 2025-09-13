@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 import { getState, states } from '@/lib/data';
+import { generateCitiesForState } from '@/lib/city-generator';
 
 export async function generateStaticParams() {
   return states.map((state) => ({
@@ -17,24 +18,14 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
     notFound();
   }
   
-  // In production, you'd fetch actual cities here
-  // For now, we'll generate a sample list
-  const sampleCities = [
-    'capital-city',
-    'major-city',
-    'downtown',
-    'northside',
-    'southside',
-    'eastside',
-    'westside',
-    'suburbs',
-    'metro-area',
-    'industrial-district'
-  ].map(slug => ({
-    slug,
-    name: slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-    href: `/${stateSlug}/dumpster-rental-${slug}`
+  // Get REAL cities from scraped data - show top 20 for this state
+  const realCities = generateCitiesForState(stateSlug, 20).map(citySlug => ({
+    slug: citySlug,
+    name: citySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    href: `/${stateSlug}/dumpster-rental-${citySlug}`
   }));
+  
+  console.log(`State page for ${stateSlug}: showing ${realCities.length} real cities`);
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -55,7 +46,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
           </h2>
           
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
-            {sampleCities.map(city => (
+            {realCities.map(city => (
               <Link 
                 key={city.slug}
                 href={city.href}
