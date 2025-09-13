@@ -18,14 +18,27 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
     notFound();
   }
   
-  // Get REAL cities from scraped data - show top 20 for this state
-  const realCities = generateCitiesForState(stateSlug, 20).map(citySlug => ({
+  // Show only MAJOR cities for this specific state to avoid confusion
+  const majorCitiesByState: Record<string, string[]> = {
+    'california': ['los-angeles', 'san-francisco', 'san-diego', 'sacramento', 'san-jose', 'fresno', 'long-beach', 'oakland', 'bakersfield', 'anaheim'],
+    'texas': ['houston', 'dallas', 'austin', 'san-antonio', 'fort-worth', 'el-paso', 'arlington', 'corpus-christi', 'plano', 'lubbock'],
+    'florida': ['jacksonville', 'miami', 'tampa', 'orlando', 'st-petersburg', 'hialeah', 'tallahassee', 'fort-lauderdale', 'port-st-lucie', 'cape-coral'],
+    'new-york': ['new-york', 'buffalo', 'rochester', 'yonkers', 'syracuse', 'albany', 'new-rochelle', 'mount-vernon', 'schenectady', 'utica'],
+    'pennsylvania': ['philadelphia', 'pittsburgh', 'allentown', 'erie', 'reading', 'scranton', 'bethlehem', 'lancaster', 'harrisburg', 'altoona'],
+    'illinois': ['chicago', 'aurora', 'rockford', 'joliet', 'naperville', 'springfield', 'peoria', 'elgin', 'waukegan', 'cicero'],
+    'ohio': ['columbus', 'cleveland', 'cincinnati', 'toledo', 'akron', 'dayton', 'youngstown', 'parma', 'canton', 'lorain'],
+    'georgia': ['atlanta', 'augusta', 'columbus', 'savannah', 'athens', 'sandy-springs', 'roswell', 'macon', 'johns-creek', 'warner-robins']
+  };
+
+  // Get major cities for this state, fallback to scraped data
+  const stateMajorCities = majorCitiesByState[stateSlug] || generateCitiesForState(stateSlug, 10);
+  const realCities = stateMajorCities.map(citySlug => ({
     slug: citySlug,
     name: citySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
     href: `/${stateSlug}/dumpster-rental-${citySlug}`
   }));
   
-  console.log(`State page for ${stateSlug}: showing ${realCities.length} real cities`);
+  console.log(`State page for ${stateSlug}: showing ${realCities.length} major cities`);
   
   return (
     <div className="container mx-auto px-4 py-8">
