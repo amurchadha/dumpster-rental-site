@@ -20,10 +20,17 @@ try {
   };
 }
 
-// Generate cities for a specific state using scraped data
+// Major cities that should always be included first
+const priorityCities = [
+  'philadelphia', 'pittsburgh', 'houston', 'dallas', 'austin', 'san-antonio',
+  'los-angeles', 'san-francisco', 'san-diego', 'miami', 'tampa', 'orlando',
+  'new-york', 'buffalo', 'rochester', 'chicago', 'atlanta', 'boston',
+  'detroit', 'cleveland', 'phoenix', 'tucson', 'denver', 'las-vegas',
+  'seattle', 'portland', 'minneapolis', 'milwaukee', 'st-louis', 'kansas-city'
+];
+
+// Generate cities for a specific state using scraped data with priority ordering
 export function generateCitiesForState(stateSlug: string, maxCities: number = 100): string[] {
-  const cities = new Set<string>();
-  
   // Validate input
   if (!stateSlug || typeof stateSlug !== 'string') {
     console.error('Invalid stateSlug in generateCitiesForState:', stateSlug);
@@ -32,9 +39,17 @@ export function generateCitiesForState(stateSlug: string, maxCities: number = 10
 
   // Use scraped cities if available
   if (scrapedCities[stateSlug] && scrapedCities[stateSlug].length > 0) {
-    const stateCities = scrapedCities[stateSlug];
-    console.log(`Using ${stateCities.length} real cities for ${stateSlug}`);
-    return stateCities.slice(0, maxCities);
+    const allStateCities = scrapedCities[stateSlug];
+    console.log(`Using ${allStateCities.length} real cities for ${stateSlug}`);
+    
+    // Put priority cities first, then the rest
+    const priorityForState = priorityCities.filter(city => allStateCities.includes(city));
+    const otherCities = allStateCities.filter(city => !priorityCities.includes(city));
+    
+    const orderedCities = [...priorityForState, ...otherCities];
+    console.log(`🎯 Priority cities for ${stateSlug}: ${priorityForState.join(', ')}`);
+    
+    return orderedCities.slice(0, maxCities);
   }
 
   console.warn(`No scraped cities found for ${stateSlug}, using fallback`);

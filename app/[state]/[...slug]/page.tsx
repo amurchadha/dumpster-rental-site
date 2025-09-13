@@ -1,16 +1,47 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getState, generateCityData } from '@/lib/data';
-import { generateAllCityParams } from '@/lib/city-generator';
+import { getState, generateCityData, states } from '@/lib/data';
+import { generateCitiesForState, generateAllCityParams } from '@/lib/city-generator';
 
-// Generate static params for all city pages - MAXIMUM SCALE
+// Generate static params - SMART BATCHING FOR CLOUDFLARE
 export async function generateStaticParams() {
-  const params = generateAllCityParams();
-  console.log(`🚀 GOING FULL SCALE: Generating ${params.length} city pages!`);
-  console.log('💪 Major states getting 50 cities each, regular states getting 30 each');
+  // Get environment variable for batch size (default to all cities if not set)
+  const MAX_CITIES_PER_STATE = process.env.MAX_CITIES_PER_STATE ? parseInt(process.env.MAX_CITIES_PER_STATE) : 999999;
+  const TOTAL_CITY_LIMIT = process.env.TOTAL_CITY_LIMIT ? parseInt(process.env.TOTAL_CITY_LIMIT) : 999999;
+  
+  console.log(`🚀 BUILDING WITH LIMITS: ${MAX_CITIES_PER_STATE} cities per state, ${TOTAL_CITY_LIMIT} total`);
+  
+  const allParams: Array<{ state: string; city: string }> = [];
+  const validStates = states.filter(s => s && s.slug);
+  
+  console.log(`Processing ${validStates.length} states`);
+  
+  for (const state of validStates) {
+    if (state.slug) {
+      const cities = generateCitiesForState(state.slug, MAX_CITIES_PER_STATE);
+      console.log(`Got ${cities.length} cities for ${state.slug}`);
+      
+      cities.forEach(city => {
+        if (city && typeof city === 'string' && allParams.length < TOTAL_CITY_LIMIT) {
+          allParams.push({
+            state: state.slug,
+            city: city
+          });
+        }
+      });
+    }
+    
+    // Break if we hit the total limit
+    if (allParams.length >= TOTAL_CITY_LIMIT) {
+      console.log(`🛑 Hit total limit of ${TOTAL_CITY_LIMIT} cities`);
+      break;
+    }
+  }
+  
+  console.log(`📊 Final count: ${allParams.length} city params`);
   
   // Convert to catch-all slug format
-  const slugParams = params.map(param => ({
+  const slugParams = allParams.map(param => ({
     state: param.state,
     slug: [`dumpster-rental-${param.city}`]
   }));
