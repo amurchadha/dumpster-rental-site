@@ -3,15 +3,15 @@ import { Metadata } from 'next';
 import { getState, generateCityData, states } from '@/lib/data';
 import { generateCitiesForState, generateAllCityParams } from '@/lib/city-generator';
 
-// OPTIMIZED BUILD: 100 cities per state (~5,000 pages) - sweet spot for Cloudflare
+// STABLE BUILD: 40 cities per state (~2,000 pages) for reliable deployment
 export async function generateStaticParams() {
   const allParams: Array<{ state: string; slug: string[] }> = [];
   const validStates = states.filter(s => s && s.slug);
   
-  // Get 100 cities per state = ~5,000 total (double the original working build)
+  // Get 40 cities per state = ~2,000 total (proven stable)
   for (const state of validStates) {
     if (state.slug) {
-      const stateCities = generateCitiesForState(state.slug, 100);
+      const stateCities = generateCitiesForState(state.slug, 40);
       
       stateCities.forEach(city => {
         if (city && typeof city === 'string') {
