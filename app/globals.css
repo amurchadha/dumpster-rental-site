@@ -9,11 +9,14 @@ body {
 	font-size: 14px;
 }
 #wrapper {
-	width: 940px;
+	max-width: 940px;
+	width: 100%;
 	margin-top: 15px;
 	margin-right: auto;
 	margin-left: auto;
 	background-color: #FFF;
+	padding: 0 10px;
+	box-sizing: border-box;
 }
 #header {
 }
@@ -135,7 +138,8 @@ a.nav:active {
 } 
 #leftcontent {
 	float: left;
-	width: 600px;
+	width: 100%;
+	max-width: 600px;
 	margin-left: 20px;
 	margin-top: 20px;
 	background-color: #f8f8f8;
@@ -145,7 +149,8 @@ a.nav:active {
 }
 #rightcontent {
 	float: left;
-	width: 275px;
+	width: 100%;
+	max-width: 275px;
 	margin-top: 15px;
 	height: auto;
 	text-align: left;
@@ -173,6 +178,64 @@ a.nav:active {
 	text-align: center;
 	height: auto;
 	width: auto;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+	#wrapper {
+		margin-top: 0;
+		padding: 0 5px;
+	}
+	
+	#leftcontent {
+		width: 100%;
+		margin: 10px 0;
+		float: none;
+	}
+	
+	#rightcontent {
+		width: 100%;
+		margin: 10px 0;
+		float: none;
+	}
+	
+	#leftcontenttext {
+		width: 100%;
+		margin: 0;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+	
+	#form {
+		width: 100%;
+		margin: 0;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+	
+	#menu {
+		padding-left: 10px;
+	}
+	
+	.navtext {
+		font-size: 14px;
+	}
+	
+	table {
+		width: 100% !important;
+	}
+	
+	table img {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	input[type="text"], 
+	textarea, 
+	select {
+		width: 100%;
+		box-sizing: border-box;
+	}
 }
 #cityzip {
 	float: left;
@@ -205,7 +268,8 @@ h5 {
 
 #leftcontent {
 	float: left;
-	width: 600px;
+	width: 100%;
+	max-width: 600px;
 	margin-left: 20px;
 	margin-top: 20px;
 	background-color: #f8f8f8;
@@ -215,7 +279,8 @@ h5 {
 }
 #rightcontent {
 	float: left;
-	width: 275px;
+	width: 100%;
+	max-width: 275px;
 	margin-top: 15px;
 	height: auto;
 	text-align: left;
