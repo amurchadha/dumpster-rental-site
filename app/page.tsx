@@ -2,6 +2,8 @@ import ContactForm from '@/components/ContactForm';
 import Link from 'next/link';
 import WeatherPricing from '@/components/WeatherPricing';
 import JunkIdentifier from '@/components/JunkIdentifier';
+import DumpsterSizeCalculator from '@/components/DumpsterSizeCalculator';
+import AvailabilityMap from '@/components/AvailabilityMap';
 
 const popularCities = [
   { name: 'Atlanta, GA', href: '/georgia/dumpster-rental-atlanta' },
@@ -37,6 +39,9 @@ export default function Home() {
           {/* Weather-Based Dynamic Pricing Widget */}
           <WeatherPricing basePrice={89} />
           
+          {/* AI Dumpster Size Calculator */}
+          <DumpsterSizeCalculator />
+          
           <p className="mb-4">
             Welcome to the home of Dumpster Rental Direct – America's premier source for 
             dumpster rentals. We work with homeowners, businesses and construction sites to 
@@ -56,6 +61,9 @@ export default function Home() {
           
           {/* AI Junk Identifier */}
           <JunkIdentifier />
+          
+          {/* Real-time Availability Map */}
+          <AvailabilityMap />
           
           <h2 className="text-2xl font-bold mt-6 mb-3">
             Get Delivery of Dumpster Rentals Direct to Your Home
