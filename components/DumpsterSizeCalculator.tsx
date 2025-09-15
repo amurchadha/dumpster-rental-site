@@ -14,25 +14,25 @@ interface SizeRecommendation {
 const dumpsterSpecs = {
   '10': { 
     volume: '10-12 cubic yards', 
-    price: 89, 
+    price: 650, 
     projects: ['Small bathroom remodel', 'Garage cleanout', 'Small deck removal'],
     dimensions: '12\' × 8\' × 4\''
   },
   '20': { 
     volume: '20-22 cubic yards', 
-    price: 119, 
+    price: 750, 
     projects: ['Kitchen remodel', 'Large room cleanout', 'Roofing project'],
     dimensions: '20\' × 8\' × 4.5\''
   },
   '30': { 
     volume: '30-32 cubic yards', 
-    price: 149, 
+    price: 850, 
     projects: ['Whole house cleanout', 'Large addition demo', 'Major landscaping'],
     dimensions: '20\' × 8\' × 6\''
   },
   '40': { 
     volume: '40-42 cubic yards', 
-    price: 179, 
+    price: 950, 
     projects: ['Commercial demo', 'Large construction project', 'Multi-room remodel'],
     dimensions: '20\' × 8\' × 8\''
   }
@@ -99,16 +99,32 @@ export default function DumpsterSizeCalculator() {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } 
-      });
-      if (videoRef.current) {
+      // Request camera with fallback options
+      let stream;
+      try {
+        // Try back camera first (better for photos)
+        stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'environment' } 
+        });
+      } catch {
+        // Fallback to any camera
+        stream = await navigator.mediaDevices.getUserMedia({ 
+          video: true 
+        });
+      }
+      
+      if (videoRef.current && stream) {
         videoRef.current.srcObject = stream;
         setIsCamera(true);
+        
+        // Ensure video plays
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play();
+        };
       }
     } catch (err) {
       console.error('Camera error:', err);
-      alert('Camera access denied. Please use file upload instead.');
+      alert('Camera access denied or not available. Please use file upload instead.');
     }
   };
 
@@ -427,7 +443,10 @@ export default function DumpsterSizeCalculator() {
 
         .camera-section video {
           width: 100%;
+          height: 300px;
           border-radius: 15px;
+          object-fit: cover;
+          background: #000;
         }
 
         .camera-controls {

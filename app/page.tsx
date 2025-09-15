@@ -37,7 +37,7 @@ export default function Home() {
           </h1>
           
           {/* Weather-Based Dynamic Pricing Widget */}
-          <WeatherPricing basePrice={89} />
+          <WeatherPricing basePrice={850} />
           
           {/* AI Dumpster Size Calculator */}
           <DumpsterSizeCalculator />

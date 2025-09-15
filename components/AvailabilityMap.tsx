@@ -230,55 +230,85 @@ export default function AvailabilityMap() {
       </div>
 
       <div className="map-container">
-        <div className="map-placeholder">
-          <div className="map-grid">
+        <div className="real-map" id="realMap">
+          {/* Embedded Google Map */}
+          {userLocation && (
+            <iframe
+              width="100%"
+              height="400"
+              style={{ border: 0, borderRadius: '10px' }}
+              loading="lazy"
+              allowFullScreen
+              src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dAPLnC5VkZUuLI&center=${userLocation.lat},${userLocation.lng}&zoom=12&maptype=roadmap`}
+            />
+          )}
+          
+          {/* Overlay with truck/dumpster markers */}
+          <div className="map-overlay">
             {/* User location */}
             {userLocation && (
-              <div className="map-item user-location" style={{
+              <div className="map-marker user-marker" style={{
                 left: '50%',
-                top: '50%'
+                top: '50%',
+                transform: 'translate(-50%, -50%)'
               }}>
-                📍 You
+                📍
+                <div className="marker-label">You are here</div>
               </div>
             )}
 
             {/* Trucks */}
-            {showTrucks && filteredTrucks.map((truck, index) => (
-              <div 
-                key={truck.id}
-                className="map-item truck"
-                style={{
-                  left: `${30 + index * 15}%`,
-                  top: `${25 + (index % 2) * 30}%`,
-                  color: getStatusColor(truck.status)
-                }}
-                onClick={() => setSelectedItem(truck)}
-              >
-                <div className="truck-icon">🚛</div>
-                <div className="truck-size" style={{ backgroundColor: getSizeColor(truck.dumpsterSize) }}>
-                  {truck.dumpsterSize}Y
+            {showTrucks && filteredTrucks.map((truck, index) => {
+              // Calculate position relative to user location
+              const offsetLat = (truck.lat - (userLocation?.lat || 39.9526)) * 1000;
+              const offsetLng = (truck.lng - (userLocation?.lng || -75.1652)) * 1000;
+              const left = 50 + offsetLng * 5; // Scale for visibility
+              const top = 50 - offsetLat * 5;
+              
+              return (
+                <div 
+                  key={truck.id}
+                  className="map-marker truck-marker"
+                  style={{
+                    left: `${Math.max(5, Math.min(95, left))}%`,
+                    top: `${Math.max(5, Math.min(95, top))}%`,
+                    color: getStatusColor(truck.status)
+                  }}
+                  onClick={() => setSelectedItem(truck)}
+                >
+                  🚛
+                  <div className="marker-label">
+                    Truck {truck.id} ({truck.dumpsterSize}Y)
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {/* Dumpsters */}
-            {showDumpsters && filteredDumpsters.map((dumpster, index) => (
-              <div 
-                key={dumpster.id}
-                className="map-item dumpster"
-                style={{
-                  left: `${20 + index * 25}%`,
-                  top: `${60 + (index % 2) * 20}%`,
-                  color: getStatusColor(dumpster.status)
-                }}
-                onClick={() => setSelectedItem(dumpster)}
-              >
-                <div className="dumpster-icon">🗑️</div>
-                <div className="dumpster-size" style={{ backgroundColor: getSizeColor(dumpster.size) }}>
-                  {dumpster.size}Y
+            {showDumpsters && filteredDumpsters.map((dumpster, index) => {
+              const offsetLat = (dumpster.lat - (userLocation?.lat || 39.9526)) * 1000;
+              const offsetLng = (dumpster.lng - (userLocation?.lng || -75.1652)) * 1000;
+              const left = 50 + offsetLng * 8;
+              const top = 50 - offsetLat * 8;
+              
+              return (
+                <div 
+                  key={dumpster.id}
+                  className="map-marker dumpster-marker"
+                  style={{
+                    left: `${Math.max(5, Math.min(95, left))}%`,
+                    top: `${Math.max(5, Math.min(95, top))}%`,
+                    color: getStatusColor(dumpster.status)
+                  }}
+                  onClick={() => setSelectedItem(dumpster)}
+                >
+                  🗑️
+                  <div className="marker-label">
+                    {dumpster.size}Y {dumpster.status}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="map-legend">
@@ -484,33 +514,72 @@ export default function AvailabilityMap() {
           overflow: hidden;
         }
 
-        .map-placeholder {
+        .real-map {
           position: relative;
           width: 100%;
           height: 400px;
-          background: linear-gradient(45deg, #f8fafc 0%, #e2e8f0 100%);
           border-radius: 10px;
-          border: 2px dashed #cbd5e1;
+          overflow: hidden;
         }
 
-        .map-grid {
+        .map-overlay {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
+          pointer-events: none;
+          z-index: 10;
         }
 
-        .map-item {
+        .map-marker {
           position: absolute;
           cursor: pointer;
           transition: all 0.3s ease;
           text-align: center;
+          pointer-events: all;
+          z-index: 20;
+          font-size: 24px;
+          filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
         }
 
-        .map-item:hover {
-          transform: scale(1.1);
-          z-index: 10;
+        .map-marker:hover {
+          transform: scale(1.2);
+          z-index: 30;
+        }
+
+        .marker-label {
+          position: absolute;
+          bottom: -35px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(0,0,0,0.8);
+          color: white;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          white-space: nowrap;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+        }
+
+        .map-marker:hover .marker-label {
+          opacity: 1;
+        }
+
+        .user-marker {
+          animation: pulse 2s infinite;
+          color: #ef4444;
+          font-size: 32px;
+        }
+
+        .truck-marker {
+          animation: bounce 3s infinite;
+        }
+
+        .dumpster-marker {
+          font-size: 20px;
         }
 
         .user-location {
