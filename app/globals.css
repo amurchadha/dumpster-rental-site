@@ -57,9 +57,10 @@ body {
 	padding-top: 5px;
 }
 #logo {
-	
 	background-repeat: repeat-x;
-	height: 198px;
+	height: auto;
+	max-height: 198px;
+	width: 100%;
 }
 #logocontainer {
 	float: left;
@@ -185,6 +186,16 @@ a.nav:active {
 	#wrapper {
 		margin-top: 0;
 		padding: 0 5px;
+	}
+	
+	#logo {
+		height: auto;
+		padding: 10px;
+	}
+	
+	#logo img {
+		max-width: 100%;
+		height: auto;
 	}
 	
 	#leftcontent {

@@ -25,7 +25,7 @@ export default function RootLayout({
                 <img 
                   src="http://www.dumpsterrentaldirect.com/images/dumpster-rental-direct-logo.jpg" 
                   alt="dumpster rental header" 
-                  style={{border: 0}}
+                  style={{border: 0, maxWidth: '100%', height: 'auto'}}
                 />
               </a>
             </div>
