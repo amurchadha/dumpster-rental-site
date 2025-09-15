@@ -231,16 +231,17 @@ export default function AvailabilityMap() {
 
       <div className="map-container">
         <div className="real-map" id="realMap">
-          {/* Embedded Google Map */}
+          {/* Mock Map Display */}
           {userLocation && (
-            <iframe
-              width="100%"
-              height="400"
-              style={{ border: 0, borderRadius: '10px' }}
-              loading="lazy"
-              allowFullScreen
-              src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dAPLnC5VkZUuLI&center=${userLocation.lat},${userLocation.lng}&zoom=12&maptype=roadmap`}
-            />
+            <div className="mock-map">
+              <div className="map-background">
+                <div className="map-grid-lines"></div>
+                <div className="map-center-marker">📍 Your Location</div>
+                <div className="map-coordinates">
+                  {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
+                </div>
+              </div>
+            </div>
           )}
           
           {/* Overlay with truck/dumpster markers */}
@@ -520,6 +521,53 @@ export default function AvailabilityMap() {
           height: 400px;
           border-radius: 10px;
           overflow: hidden;
+        }
+
+        .mock-map {
+          width: 100%;
+          height: 400px;
+          background: linear-gradient(45deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+          border-radius: 10px;
+          position: relative;
+        }
+
+        .map-background {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+        }
+
+        .map-grid-lines {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: 
+            linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+          background-size: 50px 50px;
+          opacity: 0.3;
+        }
+
+        .map-center-marker {
+          font-size: 24px;
+          color: #ef4444;
+          margin-bottom: 10px;
+          animation: pulse 2s infinite;
+        }
+
+        .map-coordinates {
+          background: rgba(0,0,0,0.8);
+          color: white;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-family: monospace;
         }
 
         .map-overlay {
