@@ -348,43 +348,6 @@ h5 {
 	font-family: Geneva, sans-serif;
 }
 
-#leftcontent {
-	float: left;
-	width: 100%;
-	max-width: 600px;
-	margin-left: 20px;
-	margin-top: 20px;
-	background-color: #f8f8f8;
-	border: 2px groove #00487a;
-	line-height: 19px;
-	height: auto;
-}
-#rightcontent {
-	float: left;
-	width: 100%;
-	max-width: 275px;
-	margin-top: 15px;
-	height: auto;
-	text-align: left;
-	margin-left: 20px;
-	/* background-image: url(../../images/formbg.jpg); */
-	background-repeat: no-repeat;
-}
-#form {
-	height: 550px;
-	width: 250px;
-	margin-right: auto;
-	margin-left: 15px;
-	text-align: left;
-}
-#leftcontenttext {
-	float: left;
-	width: 595px;
-	margin-left: 5px;
-	background-color: #f1f1f1;
-	line-height: 19px;
-	margin-right: 5px;
-}
 a.nav {
 	color: #FFF;
 	text-decoration: none;
