@@ -184,103 +184,94 @@ export default async function CityPage({
           
           <h3>Dumpster Sizes Offered in {city.name}, {state.abbreviation}</h3>
           
-          <table width="590" border={0}>
-            <tr>
-              <td width="290">10 Yard Dumpsters</td>
-              <td width="290">20 Yard Dumpsters</td>
-            </tr>
-            <tr>
-              <td>
+          <div className="dumpster-sizes">
+            <div className="size-grid">
+              <div className="size-item">
+                <h4>10 Yard Dumpsters</h4>
                 <img 
                   src="http://www.dumpsterrentaldirect.com/images/10-yard-dumpster.jpg" 
-                  alt={`10 Yard Dumpster in ${city.name}`} 
+                  alt={`10 Yard Dumpster in ${city.name}`}
+                  style={{maxWidth: '100%', height: 'auto'}}
                 />
-              </td>
-              <td>
+              </div>
+              <div className="size-item">
+                <h4>20 Yard Dumpsters</h4>
                 <img 
                   src="http://www.dumpsterrentaldirect.com/images/20-yard-dumpster.jpg" 
-                  title={`20 Yard Dumpster in ${city.name}`} 
+                  alt={`20 Yard Dumpster in ${city.name}`}
+                  style={{maxWidth: '100%', height: 'auto'}}
                 />
-              </td>
-            </tr>
-            <tr>
-              <td>30 Yard Dumpsters</td>
-              <td>40 Yard Dumpsters</td>
-            </tr>
-            <tr>
-              <td>
-                <img src="http://www.dumpsterrentaldirect.com/images/30-yard-dumpster.jpg" />
-              </td>
-              <td>
-                <img src="http://www.dumpsterrentaldirect.com/images/40-yard-dumpster.jpg" />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2}>
-                <h5>Other cities we service in {state.name}</h5>
-                <ul className="sidecities">
-                  {otherCitiesInState.map((otherCity, index) => (
-                    <li key={index}>
-                      <a href={otherCity.url}>
-                        Dumpster Rental in {otherCity.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </td>
-            </tr>
-          </table>
+              </div>
+              <div className="size-item">
+                <h4>30 Yard Dumpsters</h4>
+                <img 
+                  src="http://www.dumpsterrentaldirect.com/images/30-yard-dumpster.jpg"
+                  alt={`30 Yard Dumpster in ${city.name}`}
+                  style={{maxWidth: '100%', height: 'auto'}}
+                />
+              </div>
+              <div className="size-item">
+                <h4>40 Yard Dumpsters</h4>
+                <img 
+                  src="http://www.dumpsterrentaldirect.com/images/40-yard-dumpster.jpg"
+                  alt={`40 Yard Dumpster in ${city.name}`}
+                  style={{maxWidth: '100%', height: 'auto'}}
+                />
+              </div>
+            </div>
+            
+            <div className="other-cities">
+              <h5>Other cities we service in {state.name}</h5>
+              <ul className="sidecities">
+                {otherCitiesInState.map((otherCity, index) => (
+                  <li key={index}>
+                    <a href={otherCity.url}>
+                      Dumpster Rental in {otherCity.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       
       <div id="rightcontent">
         <div id="form">
           <h3 style={{textAlign: 'center'}}>Rent A Dumpster in {city.name}, {state.name}</h3>
-          <form action="" encType="multipart/form-data" method="POST">
-            <table style={{fontWeight: 'bolder', color: 'black'}} border={0} width="100%">
-              <tbody>
-                <tr>
-                  <td>Name:</td>
-                  <td><input name="Name:" defaultValue="" type="text" /></td>
-                </tr>
-                <tr>
-                  <td>Phone:</td>
-                  <td>
-                    <input name="Phone:" defaultValue="" type="text" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Email:</td>
-                  <td>
-                    <input name="Email:" defaultValue="" type="text" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Address:</td>
-                  <td><textarea name="Address" cols={15} rows={3}></textarea></td>
-                </tr>
-                <tr>
-                  <td>Container Size:</td>
-                  <td>
-                    <select name="Container Size:">
-                      <option>10 Yard Dumpster</option>
-                      <option>20 Yard Dumpster</option>
-                      <option>30 Yard Dumpster</option>
-                      <option>40 Yard Dumpster</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Delivery Date:</td>
-                  <td><input name="Delivery Date:" defaultValue="" type="text" /></td>
-                </tr>
-                <tr>
-                  <td colSpan={2} style={{textAlign: 'center'}}>
-                    <input name="submit" value="Request Quote" type="submit" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <form action="" encType="multipart/form-data" method="POST" className="quote-form">
+            <div className="form-group">
+              <label>Name:</label>
+              <input name="Name:" defaultValue="" type="text" />
+            </div>
+            <div className="form-group">
+              <label>Phone:</label>
+              <input name="Phone:" defaultValue="" type="text" />
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input name="Email:" defaultValue="" type="text" />
+            </div>
+            <div className="form-group">
+              <label>Address:</label>
+              <textarea name="Address" rows={3}></textarea>
+            </div>
+            <div className="form-group">
+              <label>Container Size:</label>
+              <select name="Container Size:">
+                <option>10 Yard Dumpster</option>
+                <option>20 Yard Dumpster</option>
+                <option>30 Yard Dumpster</option>
+                <option>40 Yard Dumpster</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Delivery Date:</label>
+              <input name="Delivery Date:" defaultValue="" type="text" />
+            </div>
+            <div className="form-group" style={{textAlign: 'center'}}>
+              <input name="submit" value="Request Quote" type="submit" className="submit-btn" />
+            </div>
           </form>
           
           <div style={{textAlign: 'center', marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0'}}>
